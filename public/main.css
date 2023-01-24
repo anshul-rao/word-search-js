@@ -1,10 +1,12 @@
 h1{
+  color: #2274a5;
+  font-family: 'Unbounded', sans-serif;
   text-align: center;
   margin: auto;
 }
 
 body{
-  background-color: #2F3E46;
+  background-color: #131B23;
 }
 
 .grid{
@@ -19,6 +21,7 @@ body{
 
 .grid > div {
   /* border: 2px solid white; */
+  color: white;
   text-align: center;
   font-size: 20px;
   font-family: sans-serif;
