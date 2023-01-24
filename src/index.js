@@ -1,19 +1,8 @@
 const gridDimension = 12, grid = document.querySelector('.grid');
-let wordList = [], gridCellsArr = [], selectedGridCells = [];
+let wordList = [], gridCellsArr = [], selectedGridCells = [], lastSelectedCell = null;
 
 
-wordList = ['hello', 'hihihihihihi']
-const numberOfWords = 5;
-
-// fetch('../wordbank.json')
-//     .then(response => response.json())
-//     .then(data => {
-//         console.log(data);
-
-//     })
-//     .catch(error => console.error(error));
-
-
+wordList = ['conglomerate', 'counterfeits']
 
 function generateWordSearch() {
   // clear the grid and arrays
@@ -58,32 +47,80 @@ function generateWordSearch() {
   }
 }
 
+// Places a word in the grid, takes in arguement of 'word'
+
 function wordInGrid(word) {
   // Sets coordinate and direction
+
   let coordinate = getCoordinate();
+  // Sets coordinate to random coordinate in the grid
+
   let direction = getDirection();
+  // Sets direction to one of the 8 cardinal directions
+
+  let startCoordinate = [0, 0];
+  let sharedLetter = false;
+  // Originally sharedLetter is false.
 
   // Keeps adding word if boolWordInGrid is true
-  while (!boolWordInGrid(word, coordinate, direction)) {
-    coordinate = getCoordinate();
-    direction = getDirection();
+  // Loops through gridCellArr row and its cells
+  // Checks if word can share letters and sets sharedLetter to true if possible
+    // Checks if text content of current cell has same letter as the first letter of the word being placed (word[0])
+  
+  for (let i = 0; i < gridCellsArr.length; i++) {
+    for (let j = 0; j < gridCellsArr[i].length; j++) {
+      if (gridCellsArr[i][j].textContent === word[0]) {
+        startCoordinate = [i, j];
+        sharedLetter = true;
+        break;
+      }
+    }
+  }
+
+  // Checks if word shares letters with words already placed in the grid
+  // Else, it attempts to keep finding a random coordinate and direction until it can fit
+  if (sharedLetter) {
+    while (!boolWordInGrid(word, startCoordinate, direction)) {
+      startCoordinate = getCoordinate();
+      direction = getDirection();
+    }
+  } else {
+    while (!boolWordInGrid(word, coordinate, direction)) {
+      coordinate = getCoordinate();
+      direction = getDirection();
+    }
   }
 }
 
+// Checks whether word can be placed in the grid without passing grid dimensions
+// and overlapping any letters with any other word.
 function boolWordInGrid(word, coordinate, direction) {
   let [x, y] = coordinate;
+  let intersect = false;
   for (let i = 0; i < word.length; i++) {
     const letter = word[i];
     if (x < 0 || x >= gridDimension || y < 0 || y >= gridDimension) {
+      // Checks if word is placed outside grid dimensions
       return false;
     }
 
-    if (gridCellsArr[x][y].textContent && gridCellsArr[x][y].textContent !== letter) {
-      return false;
+    // Checks if word can fit at the coordinate without overlapping over letters from another word.
+    // Sets intersect to true and breaks out of loop.
+    // Variable intersect = false means word can fit in grid
+    if (
+      gridCellsArr[x][y].textContent &&
+      gridCellsArr[x][y].textContent !== letter
+    ) {
+      intersect = true;
+      break;
     }
 
     x += direction[0];
     y += direction[1];
+  }
+
+  if (intersect) {
+    return false;
   }
 
   x = coordinate[0];
