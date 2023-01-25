@@ -1,8 +1,39 @@
 const gridDimension = 12, grid = document.querySelector('.grid');
 let wordList = [], gridCellsArr = [], selectedGridCells = [], lastSelectedCell = null;
+const numberOfWords = 5;
 
+//close
+wordBank = {
+  "animals": ["lion", "tiger", "bear", "monkey", "elephant", "giraffe", "zebra", "hippopotamus", "rhinoceros", "crocodile", "kangaroo", "platypus", "penguin", "gazelle", "puma", "ostrich", "lynx", "seagull", "pelican"],
+  "colors": ["red", "orange", "yellow", "green", "blue", "purple", "pink", "black", "white", "gray", "brown", "gold", "silver", "violet", "indigo", "cyan", "magenta", "chartreuse", "crimson"],
+  "fruits": ["apple", "banana", "orange", "strawberry", "grape", "pineapple", "mango", "kiwi", "peach", "plum", "avocado", "blackberry", "coconut", "date", "fig", "grapefruit", "guava", "lemon", "lime"],
+  "vegetables": ["carrot", "celery", "lettuce", "spinach", "broccoli", "cauliflower", "cucumber", "onion", "garlic", "potato", "artichoke", "asparagus", "beet", "brussels", "cabbage", "caper", "cactus", "collard", "dandelion"],
+  "vehicles": ["car", "truck", "bus", "motorcycle", "bicycle", "train", "airplane", "boat", "submarine", "helicopter", "sailboat", "canoe", "kayak", "catamaran", "hovercraft", "jetski", "moped", "scooter"],
+  "countries": ["USA", "Canada", "Mexico", "Brazil", "Argentina", "Colombia", "Chile", "Ecuador", "Peru", "Venezuela", "Germany", "France", "Spain", "Italy", "Greece"],
+  "science": ["Physics", "Chemistry", "Biology", "Astronomy", "Geology", "Ecology", "Meteorology", "Oceanography", "Botany", "Zoology"],
+  "sports": ["Basketball", "Soccer", "Tennis", "Golf", "Volleyball", "Baseball", "Hockey", "Rugby", "Cricket", "Swimming"]
+}
+//close
 
-wordList = ['conglomerate', 'counterfeits']
+wordList = []
+
+function getRandomCategory(){
+  var categories = Object.keys(wordBank);
+  return categories[Math.floor(Math.random() * categories.length)];
+}
+
+category = getRandomCategory()
+console.log('The category is: ' + category)
+
+tempBank = wordBank[category]
+for(let i = 0; i < numberOfWords; i++){
+  if(tempBank.length > 0){
+  let t = [Math.floor(Math.random() * tempBank.length)]
+  wordList.push(tempBank[t])
+  tempBank.splice(t, 1)
+  }
+}
+
 
 function generateWordSearch() {
   // clear the grid and arrays
