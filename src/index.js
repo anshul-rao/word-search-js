@@ -1,8 +1,6 @@
-const gridDimension = 12, grid = document.querySelector('.grid');
+const gridDimension = 12, grid = document.querySelector('.grid'), numberOfWords = 5;
 let wordList = [], gridCellsArr = [], selectedGridCells = [], lastSelectedCell = null;
-const numberOfWords = 5;
 
-//close
 wordBank = {
   "animals": ["lion", "tiger", "bear", "monkey", "elephant", "giraffe", "zebra", "hippopotamus", "rhinoceros", "crocodile", "kangaroo", "platypus", "penguin", "gazelle", "puma", "ostrich", "lynx", "seagull", "pelican"],
   "colors": ["red", "orange", "yellow", "green", "blue", "purple", "pink", "black", "white", "gray", "brown", "gold", "silver", "violet", "indigo", "cyan", "magenta", "chartreuse", "crimson"],
@@ -13,9 +11,6 @@ wordBank = {
   "science": ["Physics", "Chemistry", "Biology", "Astronomy", "Geology", "Ecology", "Meteorology", "Oceanography", "Botany", "Zoology"],
   "sports": ["Basketball", "Soccer", "Tennis", "Golf", "Volleyball", "Baseball", "Hockey", "Rugby", "Cricket", "Swimming"]
 }
-//close
-
-wordList = []
 
 function getRandomCategory(){
   var categories = Object.keys(wordBank);
@@ -45,6 +40,7 @@ function generateWordSearch() {
     const gridRow = [];
     for (let j = 0; j < gridDimension; j++) {
       const cell = document.createElement('div');
+      
       grid.appendChild(cell);
       gridRow.push(cell);
     }
@@ -53,7 +49,7 @@ function generateWordSearch() {
 
   // Implements word into grid
   for (const word of wordList) {
-    wordInGrid(word);
+    wordInGrid(word.toUpperCase());
     console.log(word)
   }
 
